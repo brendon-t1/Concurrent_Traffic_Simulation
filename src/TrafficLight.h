@@ -5,11 +5,13 @@
 #include <deque>
 #include <condition_variable>
 #include "TrafficObject.h"
+//#include "Intersection.h"
 
-enum TrafficLightPhase { red, green }
+enum TrafficLightPhase { red, green };
 // forward declarations to avoid include cycle
 class Vehicle;
-
+class Intersection;
+class TrafficObject;
 
 // FP.3 Define a class „MessageQueue“ which has the public methods send and receive. 
 // Send should take an rvalue reference of type TrafficLightPhase whereas receive should return this type. 
@@ -20,9 +22,9 @@ template <class T>
 class MessageQueue
 {
 public:
-    void MessageQueue<T>::send(T &&msg);
-    T MessageQueue<T>::receive();
-    std::dequeue<TrafficLightPhase> _queue;
+    void send(T &&msg);
+    T receive();
+    std::deque<T> _queue;
 private:
     std::condition_variable condition;
     std::mutex mtx;
@@ -37,6 +39,8 @@ private:
 class TrafficLight : public TrafficObject
 {
 public:
+	friend class TrafficObject;
+	friend class Intersection;
     // constructor / desctructor
 	TrafficLight() {}
     ~TrafficLight() {}
