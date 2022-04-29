@@ -5,7 +5,7 @@
 #include <future>
 #include <mutex>
 #include <memory>
-#include "TrafficObject.h"
+//#include "TrafficObject.h"
 #include "TrafficLight.h"
 
 // forward declarations to avoid include cycle
@@ -55,7 +55,7 @@ private:
     std::vector<std::shared_ptr<Street>> _streets;   // list of all streets connected to this intersection
     WaitingVehicles _waitingVehicles; // list of all vehicles and their associated promises waiting to enter the intersection
     bool _isBlocked;                  // flag indicating wether the intersection is blocked by a vehicle
-    TrafficObject _trafficLight;
+    TrafficLight _trafficLight;
 };
 
 #endif

@@ -4,14 +4,13 @@
 #include <mutex>
 #include <deque>
 #include <condition_variable>
+#include <thread>
 #include "TrafficObject.h"
-//#include "Intersection.h"
 
-enum TrafficLightPhase { red, green };
 // forward declarations to avoid include cycle
 class Vehicle;
-class Intersection;
-class TrafficObject;
+
+enum TrafficLightPhase { red, green };
 
 // FP.3 Define a class „MessageQueue“ which has the public methods send and receive. 
 // Send should take an rvalue reference of type TrafficLightPhase whereas receive should return this type. 
@@ -30,6 +29,7 @@ private:
     std::mutex mtx;
 };
 
+
 // FP.1 : Define a class „TrafficLight“ which is a child class of TrafficObject. 
 // The class shall have the public methods „void waitForGreen()“ and „void simulate()“ 
 // as well as „TrafficLightPhase getCurrentPhase()“, where TrafficLightPhase is an enum that 
@@ -42,7 +42,7 @@ public:
 	friend class TrafficObject;
 	friend class Intersection;
     // constructor / desctructor
-	TrafficLight() {}
+	TrafficLight() { _currentPhase = TrafficLightPhase::red;}
     ~TrafficLight() {}
     // getters / setters
     void SetTrafficLightPhase(TrafficLightPhase phase) {_currentPhase = phase;}
@@ -55,6 +55,7 @@ public:
     private: 
     	void cycleThroughPhases();
         TrafficLightPhase _currentPhase;
+
 
     // FP.4b : create a private member of type MessageQueue for messages of type TrafficLightPhase 
     // and use it within the infinite loop to push each new TrafficLightPhase into it by calling 
